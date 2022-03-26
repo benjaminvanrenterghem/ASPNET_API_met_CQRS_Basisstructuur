@@ -11,8 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 #region custom
-// Alternatief appsettings.json, arg= builder.Configuration["ConnectionStrings:Main"]
-builder.Services.ConfigureServicelayer(ApiConfig.ConnectionString);
+builder.Services.ConfigureServicelayer(builder.Configuration["ConnectionStrings:Main"]);
 
 var app = builder.Build();
 app.UseCors("OpenPolicy");

@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 namespace Domain.Static {
 	public static class ApiConfig {
 		#region Private
-		private static string Connection_DataSource = @".\SQLEXPRESS";
-		private static string Connection_Database = "BVRNET";
 		#endregion
 
 		#region Publics
@@ -21,7 +19,6 @@ namespace Domain.Static {
 		#endregion
 
 		#region Publics >> Constructions
-		public static string ConnectionString => @$"Data Source=${Connection_DataSource};Initial Catalog=${Connection_Database};Integrated Security=True";
 		#endregion
 		#endregion
 	}

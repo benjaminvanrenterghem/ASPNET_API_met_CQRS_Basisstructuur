@@ -5,7 +5,7 @@ Contains the foundational structure and 1 (one) vertically developed example, le
 
 Based on a simple **Profile** entity from the Domain model, controller functions and commands and queries are standard CRUD operations exemplified.
 Uses Entity Framework, doesn't contain a migration, create your own by:
-- 1 - **Having Sql Server up and running & adding default database "BVRNET" (or change the name in ApiConfig)**
+- 1 - **Having Sql Server up and running & adding default database "BVRNET" (or change the name in appsettings.json)**
   - ![Howto](https://i.imgur.com/XJ879eS.png)
 - 2 - **Opening** View → Package Manager Console
 - 3 - **Executing** Add-Migration InitialCreate **and** Update-Database
