@@ -4,7 +4,7 @@
 
 # Dutch
 
-Een CQRS basisfundering om verdere ontwikkelingen mogelijk te maken. Bevat de basisstructuur en 1 (één) verticaal ontwikkelde case, waarbij gebruik wordt gemaakt van de projecten in de solution. Gebaseerd op een eenvoudige entity uit het domeinmodel (Profile), de controllerfuncties en bijbehorende commands & query's stellen CRUD-operaties voor ter illustratie van het gebruik en de samenhang.
+Een CQRS basisfundering om verdere ontwikkelingen op te baseren. Bevat de basisstructuur en 1 (één) verticaal ontwikkelde case, waarbij gebruik wordt gemaakt van de projecten in de solution. Gebaseerd op een eenvoudige entity uit het domeinmodel (Profile), de controllerfuncties en bijbehorende commands & query's stellen CRUD-operaties voor ter illustratie van het gebruik en de samenhang.
 
 Maakt gebruik van Entity Framework. Bevat nog geen eerste migration, deze kan als volgt aangemaakt worden:
 - 1 - **Sql Server dient geinstalleerd en actief te zijn, voeg vervolgens de server toe in VS met default databank naam "BVRNET" (of wijzig de naam alvorens aanvang in appsettings.json)**
