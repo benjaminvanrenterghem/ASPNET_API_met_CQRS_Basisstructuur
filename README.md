@@ -1,6 +1,6 @@
 # CQRS_Base
 
-A foundational CQRS base solution with example to build upon.
+A foundational CQRS base solution to build upon.
 Contains the foundational structure and 1 (one) vertically developed example, leveraging the important projects.
 
 Based on a simple **Profile** entity from the Domain model, controller functions and commands and queries are standard CRUD operations exemplified.
