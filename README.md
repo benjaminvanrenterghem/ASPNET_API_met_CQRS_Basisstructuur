@@ -3,7 +3,7 @@
 A foundational CQRS base solution to build upon.
 Contains the foundational structure and 1 (one) vertically developed example, leveraging the important projects.
 
-Based on a simple **Profile** entity from the Domain model, controller functions and commands and queries are standard CRUD operations exemplified.
+Based on a simple **Profile** entity from the Domain model, controller functions & accompanying commands and queries are standard CRUD operations exemplified.
 Uses Entity Framework, doesn't contain a migration, create your own by:
 - 1 - **Having Sql Server up and running & adding default database "BVRNET" (or change the name in appsettings.json)**
   - ![Howto](https://i.imgur.com/XJ879eS.png)
