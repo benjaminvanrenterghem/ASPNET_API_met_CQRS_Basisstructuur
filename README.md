@@ -42,7 +42,7 @@ Uses Entity Framework, doesn't contain a migration, create your own by:
 ## Todo
 - Add validators for the scope, solution currently contains none.
 - Add unit tests for the scope, solution currently contains none.
-- Add a map to the Request- & ResponseDTO mapping profile
+- ~~Add a map to the Request- & ResponseDTO mapping profile~~
 - Add an alternative implementation for the IGenericRead- & WriteRepository using a different storage technology
 
 ## Dependencies

@@ -14,6 +14,6 @@ namespace Domain.Abstract {
 		public int? Id { get; set; }
 
 		[Required]
-		public bool? Deleted { get; set; } = false;
+		public bool Deleted { get; set; } = false;
 	}
 }

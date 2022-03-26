@@ -17,7 +17,7 @@ namespace DAL {
 			// entity.Deleted=null => false, en vandaar niet opgenomen in de queryfilter
 
 			modelBuilder.Entity<Profile>()
-						.HasQueryFilter(x => x.Deleted != false);
+						.HasQueryFilter(x => !x.Deleted);
 
 			// todo bij uitbreiding model query filter toevoegen
 		}
