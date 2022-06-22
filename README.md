@@ -1,7 +1,5 @@
 # CQRS Foundational base solution
 
-(English at the bottom of the readme)
-
 # Dutch
 
 Een CQRS basisfundering om verdere ontwikkelingen op te baseren. Bevat de basisstructuur en 1 (één) verticaal ontwikkelde case, waarbij gebruik wordt gemaakt van de projecten in de solution. Gebaseerd op een eenvoudige entity uit het domeinmodel (Profile), de controllerfuncties en bijbehorende commands & query's stellen CRUD-operaties voor ter illustratie van het gebruik en de samenhang.
@@ -14,29 +12,29 @@ Maakt gebruik van Entity Framework. Bevat nog geen eerste migration, deze kan al
 
 ## Projecten
 - 0: Frameworks
-  - **Purpose:** Een mogelijke plaats voor je eigen frameworks
+  - **Doel:** Een mogelijke plaats voor je eigen frameworks
   - Empty
 - 0: xUnit
-  - **Purpose:** Een project voor je xUnit testen in onder te brengen
+  - **Doel:** Een project voor je xUnit testen in onder te brengen
   - Empty
 - 1: BL (Business layer)
   - 1a: Domain
-    - **Purpose:** Structuren definieren waar met Logic mee wordt omgesprongen
+    - **Doel:** Structuren definieren waar met Logic mee wordt omgesprongen
     - **Folders:** Abstract, Attributes, Exceptions, Interfaces, Model, Static
       - Model → DTO → Request/Response
       - Model → Messaging
   - 1b: Logic 
-    - **Purpose:** Logica en gedrag definieren, maakt gebruik van de Domain klassen. Ingedeeld volgens het CQRS patroon, samen met FluentValidation valideerders
+    - **Doel:** Logica en gedrag definieren, maakt gebruik van de Domain klassen. Ingedeeld volgens het CQRS patroon, samen met FluentValidation valideerders
     - **Folders:** Behaviors, Extensions, Mediated, Profiles
       - Behaviors → Validators → ForProfile
       - Mediated → Commands/Queries → Internal  
 - 2: DAL (Data (access) layer) 
-  - **Purpose:** Repository implementaties, een verzameling van de aangemaakte migrations en een configurerende DbContext
+  - **Doel:** Repository implementaties, een verzameling van de aangemaakte migrations en een configurerende DbContext
   - **Folders:** Extensions, Migrations, Repositories
     - Repositories → Generics
     - Repositories → Specifics 
 - 3: API (Service layer 1) 
-  - **Purpose:** Maakt gebruik van het Domain, de Logic en de DAL. Definieert endpoints in een ASP.NET controller en maakt voor verwerking van een verzoek gebruik van MediatR.
+  - **Doel:** Maakt gebruik van het Domain, de Logic en de DAL. Definieert endpoints in een ASP.NET controller en maakt voor verwerking van een verzoek gebruik van MediatR.
   - Folders: Properties, Controllers, Extensions 
 
 De todo lijst en het dependency overzicht zijn onderaan de pagina terug te vinden.
@@ -99,8 +97,12 @@ Uses Entity Framework, doesn't contain a migration, create your own by:
 - MediatR.Extensions.FluentValidation.AspNetCore
 - MediatR.Extensions.Microsoft.DependencyInjection
 - Microsoft.AspNetCore.Cors
+- Microsoft.AspNetCore.Mvc
+- Microsoft.AspNetCore.Mvc.Core
+- System.IdentityModel.Tokens.Jwt
 - Microsoft.EntityFrameworkCore
 - Microsoft.EntityFrameworkCore.Design
+- Microsoft.EntityFrameworkCore.Proxies
 - Microsoft.EntityFrameworkCore.SqlServer
 - Microsoft.EntityFrameworkCore.Tools
 - Moq
