@@ -1,11 +1,6 @@
 ﻿using Domain.Model.Messaging;
 using FluentValidation;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Logic.Behaviors {
 	public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
@@ -33,24 +28,6 @@ namespace Logic.Behaviors {
 
 				// Failures verzamelen en met gepaste format returnen
 				if (failures.Count > 0) {
-
-					/* Zorgt voor bv volgende response (handler wordt niet bereikt)
-						{
-							  "content": null,
-							  "success": false,
-							  "messages": [
-								{
-								  "type": 2,
-								  "body": "'Office Request DT O Id' must be empty."
-								},
-								{
-								  "type": 0,
-								  "body": "Validation failed, check your request"
-								}
-							  ]
-						}
-					*/
-
 					var result = new TResponse();
 
 					result.Messages = failures.Select(f =>
@@ -62,7 +39,6 @@ namespace Logic.Behaviors {
 
 					result.Messages.Add(new Message { Body = "Validation failed, check your request", MessageType = MessageType.Info });
 
-					// direct returnen, zonder next (handlers worden niet bereikt)
 					return result;
 				}
 			}

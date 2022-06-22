@@ -69,12 +69,6 @@ namespace DAL.Repositories.Generics {
 		public void Save() {
 			_context.SaveChanges();
 		}
-
-		public void SaveAndClear() {
-			_context.SaveChanges();
-			_context.ChangeTracker.Clear();
-		}
-
 		public void Clear() {
 			_context.ChangeTracker.Clear();
 		}

@@ -44,9 +44,8 @@ namespace Logic.Mediated.Commands {
 				}
 			}
 
-			_profileWriteRepository.Clear();
 			_profileWriteRepository.Insert(profile);
-			_profileWriteRepository.SaveAndClear();
+			_profileWriteRepository.Save();
 
 			return new Response<ProfileResponseDTO>(_mapper.Map<ProfileResponseDTO>(profile));
 

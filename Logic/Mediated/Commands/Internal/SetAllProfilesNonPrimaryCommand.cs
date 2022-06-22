@@ -26,14 +26,12 @@ namespace Logic.Mediated.Commands.Internal {
 
 			List<Domain.Model.Profile> profiles = _profileReadRepository.GetAll().Where(profile => profile.IsPrimary).ToList();
 
-			_profileWriteRepository.Clear();
-
 			foreach (var profile in profiles) {
 				profile.IsPrimary = false;
 				_profileWriteRepository.Update(profile);
 			}
 
-			_profileWriteRepository.SaveAndClear();
+			_profileWriteRepository.Save();
 
 			return new SuccessResponse();
 		}

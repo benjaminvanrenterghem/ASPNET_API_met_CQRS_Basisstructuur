@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Logic.Mediated.Queries {
 
-	public class GetAllProfilesQuery : PaginatedRequest<Response<IEnumerable<ProfileResponseDTO>>> { }
+	public class GetAllProfilesQuery : PaginatedSearchRequest<Response<IEnumerable<ProfileResponseDTO>>> { }
 
 	public class GetAllProfilesQueryHandler : IRequestHandler<GetAllProfilesQuery, Response<IEnumerable<ProfileResponseDTO>>> {
 		private readonly IGenericReadRepository<Domain.Model.Profile> _profileReadRepository;

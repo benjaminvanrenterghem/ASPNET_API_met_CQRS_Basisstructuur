@@ -55,9 +55,8 @@ namespace Logic.Mediated.Commands {
 				return new Response<ProfileResponseDTO>().AddError("You have set this profile to be no longer primary, this is not allowed since it would leave no primary profile active, instead, promote a profile to be the new primary profile first.");
 			}
 
-			_profileWriteRepository.Clear();
 			_profileWriteRepository.Update(profile);
-			_profileWriteRepository.SaveAndClear();
+			_profileWriteRepository.Save();
 
 			return new Response<ProfileResponseDTO>(_mapper.Map<ProfileResponseDTO>(profile));
 

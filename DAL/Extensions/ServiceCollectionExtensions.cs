@@ -1,25 +1,23 @@
 ﻿using DAL.Repositories.Generics;
+using Datalayer.Generics;
 using Domain.Interfaces;
 using Domain.Interfaces.Repositories.Generics;
 using Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL.Extensions {
 	public static class ServiceCollectionExtensions {
 		public static void AddDataLayer(this IServiceCollection services, string connectionString) {
 
 			services.AddDbContext<NetworkDbContext>(options => {
+				options.EnableSensitiveDataLogging(true);
+				options.UseLazyLoadingProxies();
 				options.UseSqlServer(connectionString,
 				sqlServerOptionsAction: sqlOptions => {
 					sqlOptions.EnableRetryOnFailure(
-							maxRetryCount: 5,
-							maxRetryDelay: TimeSpan.FromSeconds(5),
+							maxRetryCount: 3,
+							maxRetryDelay: TimeSpan.FromSeconds(10),
 							errorNumbersToAdd: null
 					);
 				});
@@ -37,7 +35,7 @@ namespace DAL.Extensions {
 			// convention-based registration there. Otherwise, it may seem better to list every
 			// single DI registration even if that may seem very verbose.
 			//
-			// alternatief met scrutor en scan
+			// Alternatief met scrutor en scan
 			// https://stackoverflow.com/a/59520369/8623540
 
 			// Generics

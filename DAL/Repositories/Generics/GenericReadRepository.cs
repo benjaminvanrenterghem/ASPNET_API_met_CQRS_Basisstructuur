@@ -1,17 +1,22 @@
-﻿using Domain.Abstract;
+﻿using System.Linq.Expressions;
+using DAL;
+using Domain.Abstract;
 using Domain.Interfaces.Repositories.Generics;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DAL.Repositories.Generics {
+namespace Datalayer.Generics {
 	public class GenericReadRepository<T> : IGenericReadRepository<T> where T : Entity {
 		protected NetworkDbContext _context = null;
 		protected DbSet<T> _entities = null;
+
+
+		// xUnit
+		public GenericReadRepository(DbSet<T> dbSet = null, NetworkDbContext context = null) : this(context) {
+			if (dbSet != null) {
+				_entities = dbSet;
+			}
+		}
+
 
 		public GenericReadRepository(NetworkDbContext ctx = null) {
 			if (ctx == null) {
@@ -23,13 +28,26 @@ namespace DAL.Repositories.Generics {
 			_entities = _context.Set<T>();
 		}
 
-		// .ToList() weg, wordt best zo laat mogelijk geconcat bij gebruik,
-		// zodat er nog gefiltered kan worden alvorens db operatie plaatsvind
+		// Changetracker nullchecks voor QOL bij unit testing
 		public IQueryable<T> GetAll() {
-			return _entities;
+			if (_context.ChangeTracker != null) {
+				_context.ChangeTracker.LazyLoadingEnabled = false;
+			}
+			return GetAllWithLazyLoading();
 		}
 
 		public IQueryable<T> GetAll(Expression<Func<T, bool>> predicate) {
+			if (_context.ChangeTracker != null) {
+				_context.ChangeTracker.LazyLoadingEnabled = false;
+			}
+			return GetAllWithLazyLoading(predicate);
+		}
+
+		public IQueryable<T> GetAllWithLazyLoading() {
+			return _entities;
+		}
+
+		public IQueryable<T> GetAllWithLazyLoading(Expression<Func<T, bool>> predicate) {
 			return _entities.Where(predicate);
 		}
 
