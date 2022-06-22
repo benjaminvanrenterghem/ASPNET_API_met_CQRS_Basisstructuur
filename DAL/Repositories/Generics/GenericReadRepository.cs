@@ -4,7 +4,7 @@ using Domain.Abstract;
 using Domain.Interfaces.Repositories.Generics;
 using Microsoft.EntityFrameworkCore;
 
-namespace Datalayer.Generics {
+namespace DAL.Repositories.Generics {
 	public class GenericReadRepository<T> : IGenericReadRepository<T> where T : Entity {
 		protected NetworkDbContext _context = null;
 		protected DbSet<T> _entities = null;
