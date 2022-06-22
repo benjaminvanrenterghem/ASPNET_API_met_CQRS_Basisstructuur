@@ -1,5 +1,4 @@
 ﻿using DAL.Repositories.Generics;
-using Datalayer.Generics;
 using Domain.Interfaces;
 using Domain.Interfaces.Repositories.Generics;
 using Domain.Model;
