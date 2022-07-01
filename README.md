@@ -41,7 +41,7 @@ Maakt gebruik van Entity Framework. Bevat nog geen eerste migration, deze kan al
 - Add unit tests where applicable
 - ~~Add a map to the Request- & ResponseDTO mapping profile~~
 - Add an alternative implementation for the IGenericRead- & WriteRepository using a different storage technology
--- Add one ADO.NET illustrative example
+- Add one ADO.NET illustrative example
 - Add article link and remove unneeded info from the readme
 
 ## Dependencies
