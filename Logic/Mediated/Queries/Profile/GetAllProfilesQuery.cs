@@ -13,21 +13,21 @@ using System.Threading.Tasks;
 namespace Logic.Mediated.Queries.Profile {
 
 	// todo revisit
-	public class GetAllProfilesQuery : PaginatedSearchRequest<Response<IEnumerable<ProfileResponseDTO>>> { }
+	public class GetAllStageProfilesQuery : PaginatedSearchRequest<Response<IEnumerable<StageProfileResponseDTO>>> { }
 
-	public class GetAllProfilesQueryHandler : IRequestHandler<GetAllProfilesQuery, Response<IEnumerable<ProfileResponseDTO>>> {
-		private readonly IGenericReadRepository<Domain.Model.Profile> _profileReadRepository;
+	public class GetAllProfilesQueryHandler : IRequestHandler<GetAllStageProfilesQuery, Response<IEnumerable<StageProfileResponseDTO>>> {
+		private readonly IGenericReadRepository<Domain.Model.StageProfile> _profileReadRepository;
 		private readonly IMapper _mapper;
 
-		public GetAllProfilesQueryHandler(IGenericReadRepository<Domain.Model.Profile> profileReadRepository, IMapper mapper) {
+		public GetAllProfilesQueryHandler(IGenericReadRepository<Domain.Model.StageProfile> profileReadRepository, IMapper mapper) {
 			_profileReadRepository = profileReadRepository;
 			_mapper = mapper;
 		}
 
-		public async Task<Response<IEnumerable<ProfileResponseDTO>>> Handle(GetAllProfilesQuery request, CancellationToken cancellationToken) {
+		public async Task<Response<IEnumerable<StageProfileResponseDTO>>> Handle(GetAllStageProfilesQuery request, CancellationToken cancellationToken) {
 
-			return new PaginatedResponse<IEnumerable<ProfileResponseDTO>>(
-				_mapper.Map<List<ProfileResponseDTO>>(
+			return new PaginatedResponse<IEnumerable<StageProfileResponseDTO>>(
+				_mapper.Map<List<StageProfileResponseDTO>>(
 					_profileReadRepository.GetAll().Skip(request.Skip).Take(request.Take).ToList()
 				),
 				request.Page,

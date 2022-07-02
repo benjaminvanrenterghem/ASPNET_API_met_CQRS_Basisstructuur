@@ -12,23 +12,23 @@ using System.Threading.Tasks;
 
 namespace Logic.Mediated.Queries.Profile {
 	// todo revisit
-	public class GetSingleProfileQuery : IRequest<Response<ProfileResponseDTO>> {
+	public class GetSingleStageProfileQuery : IRequest<Response<StageProfileResponseDTO>> {
 		public int Id { get; set; }
 	}
 
-	public class GetSingleProfileQueryHandler : IRequestHandler<GetSingleProfileQuery, Response<ProfileResponseDTO>> {
-		private readonly IGenericReadRepository<Domain.Model.Profile> _profileReadRepository;
+	public class GetSingleProfileQueryHandler : IRequestHandler<GetSingleStageProfileQuery, Response<StageProfileResponseDTO>> {
+		private readonly IGenericReadRepository<Domain.Model.StageProfile> _profileReadRepository;
 		private readonly IMapper _mapper;
 
-		public GetSingleProfileQueryHandler(IGenericReadRepository<Domain.Model.Profile> profileReadRepository, IMapper mapper) {
+		public GetSingleProfileQueryHandler(IGenericReadRepository<Domain.Model.StageProfile> profileReadRepository, IMapper mapper) {
 			_profileReadRepository = profileReadRepository;
 			_mapper = mapper;
 		}
 
-		public async Task<Response<ProfileResponseDTO>> Handle(GetSingleProfileQuery request, CancellationToken cancellationToken) {
+		public async Task<Response<StageProfileResponseDTO>> Handle(GetSingleStageProfileQuery request, CancellationToken cancellationToken) {
 
-			return new Response<ProfileResponseDTO>(
-				_mapper.Map<ProfileResponseDTO>(
+			return new Response<StageProfileResponseDTO>(
+				_mapper.Map<StageProfileResponseDTO>(
 					_profileReadRepository.GetById(request.Id)
 				)
 			);

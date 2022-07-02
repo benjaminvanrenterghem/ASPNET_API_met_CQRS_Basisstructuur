@@ -1,5 +1,6 @@
 ﻿using Domain.Abstract;
 using Domain.Model.Enum;
+using Micro2Go.Model;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,13 +22,16 @@ namespace Domain.Model {
 
         [Required]
         [MaxLength(250)]
-        public string Password { get; set; }
+        public string Password { get; set; } = "";
 
         [Required]
         public DateTime RegistrationDate { get; set; }
 
         [Required]
         public virtual List<ClearanceLevel> ClearanceLevels { get; set; }
+
+		[Required]
+        public virtual List<StageProfile> Profiles { get; set; }
 
         public User () { /*EF*/ }
 

@@ -1,14 +1,10 @@
-﻿using Domain.Interfaces;
-using Domain.Model.DTO.Request;
-using Domain.Model.Enum;
+﻿using Domain.Model.DTO.Request;
+using Domain.Model.Messaging;
+using Domain.Static;
+using Logic.Mediated.Commands.Authentication;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using System.Text.Json.Serialization;
 
 namespace API.Controllers.Authentication {
     [Route("api/token")]
@@ -17,44 +13,33 @@ namespace API.Controllers.Authentication {
         private readonly IMediator _mediator;
         public IConfiguration _configuration;
         
-        public TokenController(IMediator mediator, IConfiguration config) {
+        public TokenController(IMediator mediator, IConfiguration configuration) {
             _mediator = mediator;
-            _configuration = config;
+            _configuration = configuration;
         }
 
-        // todo open/no auth if necess.
-        // todo logica in handler + validator
+        // todo logica in handler, dient sha256 waarde van passw te comparen + validator
+        // todo unit tests
         [HttpPost]
+		[Authorize(ApiConfig.AuthorizedFor_Public)]
         public async Task<ActionResult> ProvideJWTToken(LoginRequestDTO providedCredentials) {
-            var clearanceLevels = new List<ClearanceLevel>() { ClearanceLevel.User, ClearanceLevel.Management };
+            try {
+                return Ok(
+                    await _mediator.Send(
+                        new CreateJWTTokenCommand() {
+                            ProvidedCredentials = providedCredentials,
+                            Subject = _configuration[ApiConfig.JWT_Subject],
+                            Key = _configuration[ApiConfig.JWT_Key],
+                            Issuer = _configuration[ApiConfig.JWT_Issuer],
+                            Audience = _configuration[ApiConfig.JWT_Audience]
+                        }
+                    )
+                );
+            } catch (Exception ex) {
+                return BadRequest(new FallbackResponse(nameof(TokenController) + ApiConfig.ExcSeparator + ex.Message));
+            }
+		}
 
-            throw new NotImplementedException();
-
-            //if (user != null) {
-            //    //create claims details based on the user information
-            //    var claims = new[] {
-            //        new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
-            //        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            //        new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-            //        new Claim(JwtRegisteredClaimNames.Exp, DateTime.UtcNow.AddHours(1).ToString()),
-            //        new Claim("ClearanceLevels".ToString(), clearanceLevels.ConvertAll(cl => cl.ToString()).ToString() ?? "")
-            //    };
-
-            //    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            //    var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            //    var token = new JwtSecurityToken(
-            //        _configuration["Jwt:Issuer"],
-            //        _configuration["Jwt:Audience"],
-            //        claims,
-            //        expires: DateTime.UtcNow.AddHours(1),
-            //        signingCredentials: signIn
-            //    );
-
-            //    return Ok(new JwtSecurityTokenHandler().WriteToken(token));
-            //} else {
-            //    return BadRequest("Invalid credentials");
-            //}
-        }
 
     }
 }

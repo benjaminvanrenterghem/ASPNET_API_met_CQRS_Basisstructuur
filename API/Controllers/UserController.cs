@@ -1,9 +1,12 @@
-﻿using Domain.Model.Messaging;
+﻿using Domain.Model.DTO.Request;
+using Domain.Model.Messaging;
 using Domain.Static;
 using MediatR;
+using Micro2Go.Model;
+using Micro2Go.Parsers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-// todo toevoegen auth attribs
 namespace API.Controllers
 {
     [Route("api/[controller]")]
@@ -16,76 +19,78 @@ namespace API.Controllers
             _mediator = mediator;
         }
         
-        // todo args voor paginated search req
         [HttpGet("admin/users")]
-        public async Task<ActionResult> GetAllUsers() {
+        [Authorize(ApiConfig.AuthorizedFor_Management)]
+        public async Task<ActionResult> GetAllUsers(int? page, int? pageSize, string? searchPropertyName = null, string? searchValue = null) {
             try {
-                // todo handler
                 return Ok(
-                    //await _mediator.Send(
-                        //new GetAllProfilesQuery() { Page = page ?? default, PageSize = pageSize ?? default }
-                    //)
-                );
+					await _mediator.Send(
+						new GetAllUsersQuery() {
+                            Page = page ?? ApiConfig.DefaultPage,
+                            PageSize = pageSize ?? ApiConfig.DefaultPageSize,
+                            SearchPropertyName = searchPropertyName,
+                            SearchValue = searchValue
+                        }
+					)
+				);
             } catch (Exception ex) {
                 return BadRequest(new FallbackResponse(nameof(UserController) + ApiConfig.ExcSeparator + ex.Message));
             }
         }
 
-        // todo idem
         [HttpGet("admin/user/{id:int}")]
+        [Authorize(ApiConfig.AuthorizedFor_Management)]
         public async Task<ActionResult> GetUser(int id) {
             try {
-                // todo handler
                 return Ok(
-                //await _mediator.Send(
-                //new GetAllProfilesQuery() { Page = page ?? default, PageSize = pageSize ?? default }
-                //)
-                );
+					await _mediator.Send(
+					    new GetSingleUserQuery() { 
+                            Id = id
+                        }
+					)
+				);
             } catch (Exception ex) {
                 return BadRequest(new FallbackResponse(nameof(UserController) + ApiConfig.ExcSeparator + ex.Message));
             }
         }
 
-		// todo
+		// todo, handler dient sha256 van ww op te slaan
+        // tevens checks unique email, loginname, niet displayname
+        // clearancelevels = altijd [1] met louter .User
 		[HttpPost("register")]
-        public async Task<ActionResult> RegisterUser() {
+        [Authorize(ApiConfig.AuthorizedFor_Public)]
+        public async Task<ActionResult> RegisterUser(UserRequestDTO userRequestDTO) {
             try {
-                // todo handler
                 return Ok(
-                //await _mediator.Send(
-                //new GetAllProfilesQuery() { Page = page ?? default, PageSize = pageSize ?? default }
-                //)
-                );
+				    await _mediator.Send(
+				        new CreateUserCommand() { 
+                            UserRequestDTO = userRequestDTO
+                        }
+				    )
+				);
             } catch (Exception ex) {
                 return BadRequest(new FallbackResponse(nameof(UserController) + ApiConfig.ExcSeparator + ex.Message));
             }
         }
 
-		// todo
-		[HttpPut("self/update/{id:int}")]
-        public async Task<ActionResult> UpdateSelf(int id /*,dto*/) {
+		// todo, handler gebruikt jwt clearance
+		[HttpPut("update/{id:int}")]
+        [Authorize(ApiConfig.AuthorizedFor_Shared)]
+        public async Task<ActionResult> UpdateUser(int id, UserRequestDTO userRequestDTO) {
             try {
-                // todo handler
-                return Ok(
-                //await _mediator.Send(
-                //new GetAllProfilesQuery() { Page = page ?? default, PageSize = pageSize ?? default }
-                //)
-                );
-            } catch (Exception ex) {
-                return BadRequest(new FallbackResponse(nameof(UserController) + ApiConfig.ExcSeparator + ex.Message));
-            }
-        }
+                // todo, dat is voor in de validator
+    //            if(id != userRequestDTO.Id) {
+    //                return BadRequest(new Response<bool>(false).AddError("Query param id & dto id mismatch"));
+				//}
 
-		// todo
-		[HttpPut("admin/update/{id:int}")]
-        public async Task<ActionResult> UpdateUser(int id /*,dto*/) {
-            try {
-                // todo handler
                 return Ok(
-                //await _mediator.Send(
-                //new GetAllProfilesQuery() { Page = page ?? default, PageSize = pageSize ?? default }
-                //)
-                );
+					await _mediator.Send(
+						new UpdateUserCommand() { 
+                            ParsedJwtToken = JwtTokenParser.ParseRequest(Request),
+                            UserRequestDTO = userRequestDTO
+                        }
+					)
+				);
             } catch (Exception ex) {
                 return BadRequest(new FallbackResponse(nameof(UserController) + ApiConfig.ExcSeparator + ex.Message));
             }
@@ -93,14 +98,16 @@ namespace API.Controllers
 
 		// todo
 		[HttpDelete("admin/user/{id:int}")]
+        [Authorize(ApiConfig.AuthorizedFor_Management)]
         public async Task<ActionResult> DeleteUser(int id) {
             try {
-                // todo handler
                 return Ok(
-                //await _mediator.Send(
-                //new GetAllProfilesQuery() { Page = page ?? default, PageSize = pageSize ?? default }
-                //)
-                );
+				    await _mediator.Send(
+				        new DeleteUserCommand() { 
+                            Id = id
+                        }
+				    )
+				);
             } catch (Exception ex) {
                 return BadRequest(new FallbackResponse(nameof(UserController) + ApiConfig.ExcSeparator + ex.Message));
             }

@@ -4,6 +4,7 @@ using Domain.Interfaces;
 using Domain.Model.Messaging;
 using Domain.Static;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // Wordt gebruikt als test endpoint (wordt gebruikt als test bij de initiele configuratie - zie artikel) en indiceert API service en databank liveliness
@@ -18,8 +19,8 @@ namespace API.Controllers {
 			_dbContext = dbContext;
 		}
 
-		// todo open/no auth indien vereist
 		[HttpGet]
+		[Authorize(ApiConfig.AuthorizedFor_Public)]
 		public async Task<ActionResult> PerformLivelinessTest() {
 			try {
 				return Ok(

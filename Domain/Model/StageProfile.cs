@@ -10,13 +10,16 @@ using System.Threading.Tasks;
 
 namespace Domain.Model {
 	[Table("Profile")]
-	public class Profile : Entity {
+	public class StageProfile : Entity {
 		[Required]
 		[MaxLength(250)]
 		public string FullName { get; set; }
 
 		[Required]
 		public User Owner { get; set; }
+
+		// Hoort automatisch bij Owner door EF, laat toe om de relatie in te stellen zonder Owner/User te providen
+		public int OwnerId { get; set; }
 
 		[Required]
 		[MaxLength(1024)]
@@ -27,11 +30,18 @@ namespace Domain.Model {
 		public string WebsiteURL { get; set; }
 
 
-		public Profile () { /*EF*/ }
+		public StageProfile () { /*EF*/ }
 
-		public Profile(string fullName, User owner, string about, string websiteURL) {
+		public StageProfile(string fullName, User owner, string about, string websiteURL) {
 			FullName = fullName;
 			Owner = owner;
+			About = about;
+			WebsiteURL = websiteURL;
+		}
+
+		public StageProfile(string fullName, int ownerId, string about, string websiteURL) {
+			FullName = fullName;
+			OwnerId = ownerId;
 			About = about;
 			WebsiteURL = websiteURL;
 		}

@@ -9,9 +9,11 @@ namespace Micro2Go.Parsers {
 			var claims = new JwtSecurityTokenHandler().ReadJwtToken(request.Headers["Authorization"].ToString().Replace("Bearer ", "")).Claims;
 
 			return new ParsedJwtToken() {
-				Email = claims?.FirstOrDefault(claim => claim.Type == "email")?.Value ?? "",
-				Name = claims?.FirstOrDefault(claim => claim.Type == "name")?.Value ?? "",
-				Groups = claims?.Where(claim => claim.Type == "groups")?.Select(claim => claim.Value.ToString())?.ToList() ?? new(),
+				UserId = int.Parse(claims?.FirstOrDefault(claim => claim.Type.ToLower() == "userid")?.Value ?? "-1"),
+				Email = claims?.FirstOrDefault(claim => claim.Type.ToLower() == "email")?.Value ?? "",
+				DisplayName = claims?.FirstOrDefault(claim => claim.Type.ToLower() == "displayname")?.Value ?? "",
+				LoginName = claims?.FirstOrDefault(claim => claim.Type.ToLower() == "loginname")?.Value ?? "",
+				ClearanceLevels = claims?.Where(claim => claim.Type.ToLower() == "clearancelevel")?.Select(claim => Enum.Parse<ClearanceLevel>(claim.Value.ToString()))?.ToList() ?? new(),
 			};
 		}
 	}

@@ -38,11 +38,11 @@ namespace DAL.Extensions {
 			// https://stackoverflow.com/a/59520369/8623540
 
 			// Generics
-			services.AddScoped<IGenericReadRepository<Profile>, GenericReadRepository<Profile>>();
+			services.AddScoped<IGenericReadRepository<StageProfile>, GenericReadRepository<StageProfile>>();
 			services.AddScoped<IGenericReadRepository<User>, GenericReadRepository<User>>();
 			//services.AddScoped<>(); // todo rem
 
-			services.AddScoped<IGenericWriteRepository<Profile>, GenericWriteRepository<Profile>>();
+			services.AddScoped<IGenericWriteRepository<StageProfile>, GenericWriteRepository<StageProfile>>();
 			services.AddScoped<IGenericWriteRepository<User>, GenericWriteRepository<User>>();
 
 			// Specifics

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.Model.DTO.Response {
-	public class ProfileResponseDTO {
+	public class StageProfileResponseDTO {
 		public int Id { get; set; }
 
 		[LocalizedDisplayName("Naam")]

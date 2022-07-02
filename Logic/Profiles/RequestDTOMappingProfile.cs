@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Logic.Profiles {
 	public class RequestDTOMappingProfile : AutoMapper.Profile {
 		public RequestDTOMappingProfile() {
-			CreateMap<ProfileRequestDTO, Domain.Model.Profile>();
+			CreateMap<StageProfileRequestDTO, Domain.Model.StageProfile>();
 		}
 	}
 }

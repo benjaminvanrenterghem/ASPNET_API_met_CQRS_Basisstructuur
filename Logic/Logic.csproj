@@ -7,8 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Mediated\Queries\Internal\**" />
+    <EmbeddedResource Remove="Mediated\Queries\Internal\**" />
+    <None Remove="Mediated\Queries\Internal\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Behaviors\Validators\ForUser\" />
     <Folder Include="Behaviors\Validators\ForProfile\" />
-    <Folder Include="Mediated\Queries\Internal\" />
+    <Folder Include="Mediated\Commands\User\" />
+    <Folder Include="Mediated\Queries\User\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,10 +31,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.21.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.21.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Micro2Go\Micro2Go.csproj" />
   </ItemGroup>
 
 </Project>

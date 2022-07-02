@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces {
 	public interface INetworkDbContext {
-		DbSet<Profile> Profiles { get; set; }
+		DbSet<StageProfile> Profiles { get; set; }
 	}
 }
