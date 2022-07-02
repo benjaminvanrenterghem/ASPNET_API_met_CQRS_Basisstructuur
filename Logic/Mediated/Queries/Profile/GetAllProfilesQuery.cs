@@ -10,8 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logic.Mediated.Queries {
+namespace Logic.Mediated.Queries.Profile {
 
+	// todo revisit
 	public class GetAllProfilesQuery : PaginatedSearchRequest<Response<IEnumerable<ProfileResponseDTO>>> { }
 
 	public class GetAllProfilesQueryHandler : IRequestHandler<GetAllProfilesQuery, Response<IEnumerable<ProfileResponseDTO>>> {

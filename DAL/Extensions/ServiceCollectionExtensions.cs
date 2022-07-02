@@ -39,8 +39,11 @@ namespace DAL.Extensions {
 
 			// Generics
 			services.AddScoped<IGenericReadRepository<Profile>, GenericReadRepository<Profile>>();
+			services.AddScoped<IGenericReadRepository<User>, GenericReadRepository<User>>();
+			//services.AddScoped<>(); // todo rem
 
 			services.AddScoped<IGenericWriteRepository<Profile>, GenericWriteRepository<Profile>>();
+			services.AddScoped<IGenericWriteRepository<User>, GenericWriteRepository<User>>();
 
 			// Specifics
 		}

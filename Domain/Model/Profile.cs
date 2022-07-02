@@ -11,21 +11,29 @@ using System.Threading.Tasks;
 namespace Domain.Model {
 	[Table("Profile")]
 	public class Profile : Entity {
-
-		// todo opvullen
 		[Required]
 		[MaxLength(250)]
 		public string FullName { get; set; }
 
 		[Required]
-		public bool IsPrimary { get; set; }
+		public User Owner { get; set; }
+
+		[Required]
+		[MaxLength(1024)]
+		public string About { get; set; }
+
+		[Required]
+		[MaxLength(250)]
+		public string WebsiteURL { get; set; }
 
 
 		public Profile () { /*EF*/ }
 
-		public Profile(string fullName, bool isPrimary) {
+		public Profile(string fullName, User owner, string about, string websiteURL) {
 			FullName = fullName;
-			IsPrimary = isPrimary;
+			Owner = owner;
+			About = about;
+			WebsiteURL = websiteURL;
 		}
 
 	}

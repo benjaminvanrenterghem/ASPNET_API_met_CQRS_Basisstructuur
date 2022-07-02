@@ -17,7 +17,9 @@ namespace API.Controllers {
 			_mediator = mediator;
 		}
 
-		[HttpGet]
+		// todo auth
+		// todo search pagin req params
+		[HttpGet("profiles")]
 		public async Task<ActionResult> GetAllProfiles(int? page, int? pageSize) {
 			try {
 				return Ok(
@@ -30,6 +32,7 @@ namespace API.Controllers {
 			}	
 		}
 
+		// todo auth
 		[HttpGet("{id:int}")]
 		public async Task<ActionResult> GetSingleProfile(int id) {
 			try {
@@ -43,21 +46,9 @@ namespace API.Controllers {
 			}
 		}
 
-		[HttpGet("/profile/primary")] // todo nazicht path ok
-		public async Task<ActionResult> GetPrimaryProfile() {
-			try {
-				return Ok(
-					await _mediator.Send(
-						new GetPrimaryProfileQuery() { }
-					)
-				);
-			} catch (Exception ex) {
-				return BadRequest(new FallbackResponse(nameof(ProfileController) + ApiConfig.ExcSeparator + ex.Message));
-			}
-		}
-
+		// todo auth, jwt
 		// bij handlers voor zorgen dat bij create & update er steeds slechts 1 profile primary kan/mag zijn
-		[HttpPost]
+		[HttpPost("create")]
 		public async Task<ActionResult> CreateProfile(ProfileRequestDTO profile) {
 			try {
 				return Ok(
@@ -70,7 +61,8 @@ namespace API.Controllers {
 			}
 		}
 
-		[HttpPut]
+		// todo auth jwt
+		[HttpPut("update")]
 		public async Task<ActionResult> UpdateProfile(ProfileRequestDTO profile) {
 			try {
 				return Ok(

@@ -12,7 +12,14 @@ namespace Domain.Model.DTO.Response {
 
 		[LocalizedDisplayName("Naam")]
 		public string FullName { get; set; }
-		public bool IsPrimary { get; set; }
+
+		public UserResponseDTO Owner { get; set; }
+
+		[LocalizedDisplayName("Over mij")]
+		public string About { get; set; }
+
+		[LocalizedDisplayName("Website")]
+		public string WebsiteURL { get; set; }
 		public bool Deleted { get; set; }
 	}
 }

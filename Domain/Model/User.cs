@@ -1,0 +1,44 @@
+﻿using Domain.Abstract;
+using Domain.Model.Enum;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Domain.Model {
+	[Table("User")]
+    public class User : Entity
+    {
+        [Required]
+        [MaxLength(250)]
+        public string DisplayName { get; set; }
+
+        [Required]
+        [MaxLength(250)]
+        public string LoginName { get; set; }
+
+        [Required]
+        [MaxLength(250)]
+        public string Email { get; set; }
+
+        [Required]
+        [MaxLength(250)]
+        public string Password { get; set; }
+
+        [Required]
+        public DateTime RegistrationDate { get; set; }
+
+        [Required]
+        public virtual List<ClearanceLevel> ClearanceLevels { get; set; }
+
+        public User () { /*EF*/ }
+
+        public User(string displayName, string loginName, string email, string password, DateTime registrationDate, List<ClearanceLevel> clearanceLevels)
+        {
+            DisplayName = displayName;
+            LoginName = loginName;
+            Email = email;
+            Password = password;
+            RegistrationDate = registrationDate;
+            ClearanceLevels = clearanceLevels ?? new();
+        }
+    }
+}

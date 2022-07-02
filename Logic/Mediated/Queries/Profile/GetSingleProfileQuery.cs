@@ -10,8 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logic.Mediated.Queries {
-	public class GetSingleProfileQuery : IRequest<Response<ProfileResponseDTO>> { 
+namespace Logic.Mediated.Queries.Profile {
+	// todo revisit
+	public class GetSingleProfileQuery : IRequest<Response<ProfileResponseDTO>> {
 		public int Id { get; set; }
 	}
 

@@ -4,7 +4,6 @@ using Domain.Model;
 using Domain.Model.DTO.Request;
 using Domain.Model.DTO.Response;
 using Domain.Model.Messaging;
-using Logic.Mediated.Commands.Internal;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -12,11 +11,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logic.Mediated.Commands {
+namespace Logic.Mediated.Commands.Profile {
 	public class CreateProfileCommand : IRequest<Response<ProfileResponseDTO>> {
 		public ProfileRequestDTO ProfileRequestDTO { get; set; }
 	}
 
+	// todo revise
 	public class CreateProfileCommandHandler : IRequestHandler<CreateProfileCommand, Response<ProfileResponseDTO>> {
 		public readonly IGenericReadRepository<Domain.Model.Profile> _profileReadRepository;
 		public readonly IGenericWriteRepository<Domain.Model.Profile> _profileWriteRepository;

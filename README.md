@@ -1,5 +1,11 @@
 # ASP.NET API met CQRS basisfundering
 
+Belangrijk: deze repository is momenteel under construction en de solution zal niet compilen, gebruik voorlopig de laatst-werkende versie, welke hier te vinden is:
+
+https://github.com/benjaminvanrenterghem/ASPNET_API_met_CQRS_Basisstructuur/tree/8511f763497ddb1781eb790c9cb13f56d729af8f
+
+
+
 Maakt gebruik van Entity Framework. Bevat nog geen eerste migration, deze kan als volgt aangemaakt worden:
 - 1 - **Sql Server dient geinstalleerd en actief te zijn, voeg vervolgens de server toe in VS met default databank naam "BVRNET" (of wijzig de naam alvorens aanvang in appsettings.json)**
   - ![Howto](https://i.imgur.com/XJ879eS.png)
