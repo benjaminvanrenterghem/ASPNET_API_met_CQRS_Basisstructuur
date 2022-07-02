@@ -13,10 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Behaviors\Validators\ForUser\" />
-    <Folder Include="Behaviors\Validators\ForProfile\" />
-    <Folder Include="Mediated\Commands\User\" />
-    <Folder Include="Mediated\Queries\User\" />
+    <Folder Include="Behaviors\Validators\ForUsers\" />
+    <Folder Include="Behaviors\Validators\ForProfiles\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,5 +1,4 @@
-﻿using Domain.Model.Enum;
-using Micro2Go.Model;
+﻿using Micro2Go.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

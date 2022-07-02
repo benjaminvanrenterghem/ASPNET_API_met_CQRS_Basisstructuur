@@ -1,15 +1,15 @@
 ﻿using Domain.Model.DTO.Request;
 using Domain.Model.Messaging;
 using Domain.Static;
+using Logic.Mediated.Commands.Users;
+using Logic.Mediated.Queries.Users;
 using MediatR;
-using Micro2Go.Model;
 using Micro2Go.Parsers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
-{
-    [Route("api/[controller]")]
+namespace API.Controllers {
+	[Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -54,9 +54,6 @@ namespace API.Controllers
             }
         }
 
-		// todo, handler dient sha256 van ww op te slaan
-        // tevens checks unique email, loginname, niet displayname
-        // clearancelevels = altijd [1] met louter .User
 		[HttpPost("register")]
         [Authorize(ApiConfig.AuthorizedFor_Public)]
         public async Task<ActionResult> RegisterUser(UserRequestDTO userRequestDTO) {
@@ -73,7 +70,6 @@ namespace API.Controllers
             }
         }
 
-		// todo, handler gebruikt jwt clearance
 		[HttpPut("update/{id:int}")]
         [Authorize(ApiConfig.AuthorizedFor_Shared)]
         public async Task<ActionResult> UpdateUser(int id, UserRequestDTO userRequestDTO) {
@@ -96,7 +92,6 @@ namespace API.Controllers
             }
         }
 
-		// todo
 		[HttpDelete("admin/user/{id:int}")]
         [Authorize(ApiConfig.AuthorizedFor_Management)]
         public async Task<ActionResult> DeleteUser(int id) {

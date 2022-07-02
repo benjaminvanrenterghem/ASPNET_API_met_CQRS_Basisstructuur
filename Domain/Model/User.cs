@@ -1,5 +1,4 @@
 ﻿using Domain.Abstract;
-using Domain.Model.Enum;
 using Micro2Go.Model;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

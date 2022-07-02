@@ -15,14 +15,10 @@ namespace Logic.Mediated.Commands.Profile {
 
 	// todo validator, tests
 	public class CreateStageProfileCommandHandler : IRequestHandler<CreateStageProfileCommand, Response<StageProfileResponseDTO>> {
-		public readonly IGenericReadRepository<User> _userReadRepository;
-		public readonly IGenericReadRepository<StageProfile> _profileReadRepository;
-		public readonly IGenericWriteRepository<StageProfile> _profileWriteRepository;
+		private readonly IGenericWriteRepository<StageProfile> _profileWriteRepository;
 		private readonly IMapper _mapper;
 
-		public CreateStageProfileCommandHandler(IGenericReadRepository<User> userReadRepository, IGenericReadRepository<StageProfile> profileReadRepository, IGenericWriteRepository<StageProfile> profileWriteRepository, IMapper mapper) {
-			_userReadRepository = userReadRepository;
-			_profileReadRepository = profileReadRepository;
+		public CreateStageProfileCommandHandler(IGenericWriteRepository<StageProfile> profileWriteRepository, IMapper mapper) {
 			_profileWriteRepository = profileWriteRepository;
 			_mapper = mapper;
 		}

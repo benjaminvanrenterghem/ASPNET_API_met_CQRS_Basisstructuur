@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.Model.DTO.Response {
+﻿namespace Domain.Model.DTO.Response {
 	public class UserResponseDTO {
+		public int? Id { get; set; }
 		public string DisplayName { get; set; }
 		public string LoginName { get; set; }
 		public string Email { get; set; }
@@ -17,5 +12,6 @@ namespace Domain.Model.DTO.Response {
 		public List<string> ClearanceLevels { get; set; }
 
 		public List<StageProfileResponseDTO> Profiles { get; set; }
+		public bool? Deleted { get; set; }
 	}
 }
