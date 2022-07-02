@@ -25,7 +25,7 @@ namespace Logic.Mediated.Queries.Profile {
 
 			return new PaginatedResponse<IEnumerable<StageProfileResponseDTO>>(
 				_mapper.Map<List<StageProfileResponseDTO>>(
-					_profileReadRepository.GetAll().Search(request.Skip, request.Take, request.SearchPropertyName, request.SearchValue)
+					_profileReadRepository.GetAll().DeprecatedSearch(request.Skip, request.Take, request.SearchPropertyName, request.SearchValue)
 				),
 				request.Page,
 				request.PageSize,

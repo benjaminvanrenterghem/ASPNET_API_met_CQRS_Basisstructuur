@@ -7,6 +7,11 @@ namespace Domain.Model {
 	[Table("User")]
     public class User : Entity
     {
+        // ConcurrencyToken
+        // https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/concurrency?view=aspnetcore-6.0#add-a-tracking-property
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+
         [Required]
         [MaxLength(250)]
         public string DisplayName { get; set; }

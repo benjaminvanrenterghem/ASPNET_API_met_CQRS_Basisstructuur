@@ -23,7 +23,7 @@ namespace Logic.Mediated.Queries.Users {
 			// todo controle clearancelevels values in resp dto
 			return new PaginatedResponse<IEnumerable<UserResponseDTO>>(
 					_mapper.Map<List<UserResponseDTO>>(
-						_userReadRepository.GetAll().Search(request.Skip, request.Take, request.SearchPropertyName, request.SearchValue)
+						_userReadRepository.GetAll().DeprecatedSearch(request.Skip, request.Take, request.SearchPropertyName, request.SearchValue)
 					)
 				,
 				request.Page,
