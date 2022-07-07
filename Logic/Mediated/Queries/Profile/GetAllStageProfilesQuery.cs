@@ -9,6 +9,7 @@ using MediatR;
 
 namespace Logic.Mediated.Queries.Profile {
 
+	// todo globally - indien 1 validator klaar, kijk ns of de validationbehavior wel triggered
 	// todo revisit
 	public class GetAllStageProfilesQuery : PaginatedSearchRequest<Response<IEnumerable<StageProfileResponseDTO>>> { }
 
