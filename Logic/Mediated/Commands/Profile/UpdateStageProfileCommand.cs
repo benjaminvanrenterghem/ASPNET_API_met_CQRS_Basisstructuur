@@ -26,7 +26,7 @@ namespace Logic.Mediated.Commands.Profile {
 			_mapper = mapper;
 		}
 
-		// todo validator, unit tests
+		// todo unit tests
 		public async Task<Response<StageProfileResponseDTO>> Handle(UpdateStageProfileCommand request, CancellationToken cancellationToken) {
 			var req = request.ProfileRequestDTO;
 			var jwt = request.ParsedJwtToken;
@@ -37,6 +37,7 @@ namespace Logic.Mediated.Commands.Profile {
 				return new Response<StageProfileResponseDTO>().AddError("StageProfile could not be found");
 			}
 
+			// Clearance check ook opgenomen in validator
 			if (!jwt.ClearanceLevels.Contains(ClearanceLevel.Management)) {
 				if (existingProfile.OwnerId != jwt.UserId) {
 					return new Response<StageProfileResponseDTO>().AddError("Unpriviliged: you are not the owner of this profile");

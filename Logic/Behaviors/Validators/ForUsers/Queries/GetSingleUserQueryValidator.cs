@@ -1,12 +1,11 @@
 ﻿using FluentValidation;
 using Logic.Mediated.Queries.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
+// todo test
 namespace Logic.Behaviors.Validators.ForUsers.Queries {
 	public class GetSingleUserQueryValidator : AbstractValidator<GetSingleUserQuery> {
+		public GetSingleUserQueryValidator() {
+			RuleFor(req => req.Id).InclusiveBetween(1, int.MaxValue);
+		}
 	}
 }

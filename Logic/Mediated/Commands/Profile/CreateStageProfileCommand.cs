@@ -13,7 +13,7 @@ namespace Logic.Mediated.Commands.Profile {
 		public ParsedJwtToken ParsedJwtToken { get; set; }
 	}
 
-	// todo validator, tests
+	// todo tests
 	public class CreateStageProfileCommandHandler : IRequestHandler<CreateStageProfileCommand, Response<StageProfileResponseDTO>> {
 		private readonly IGenericWriteRepository<StageProfile> _profileWriteRepository;
 		private readonly IMapper _mapper;
@@ -27,6 +27,7 @@ namespace Logic.Mediated.Commands.Profile {
 			var req = request.ProfileRequestDTO;
 			var jwt = request.ParsedJwtToken;
 
+			// Ook opgenomen in validator
 			if (!jwt.ClearanceLevels.Contains(ClearanceLevel.Management)) {
 				if (req.OwnerUserId != jwt.UserId) {
 					return new Response<StageProfileResponseDTO>().AddError("Unpriviliged: JWT user id & provided dto owner id mismatch");

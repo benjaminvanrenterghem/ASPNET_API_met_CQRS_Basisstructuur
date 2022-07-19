@@ -10,10 +10,11 @@ using Micro2Go.Model;
 
 namespace Logic.Mediated.Commands.Users {
 	public class CreateUserCommand : IRequest<Response<UserResponseDTO>> {
+		public ParsedJwtToken ParsedJwtToken { get; set; }
 		public UserRequestDTO UserRequestDTO { get; set; }
 	}
 
-	// todo validator, tests
+	// todo tests
 	public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Response<UserResponseDTO>> {
 		private readonly IGenericReadRepository<User> _userReadRepository;
 		private readonly IGenericWriteRepository<User> _userWriteRepository;
@@ -27,6 +28,7 @@ namespace Logic.Mediated.Commands.Users {
 
 		public async Task<Response<UserResponseDTO>> Handle(CreateUserCommand request, CancellationToken cancellationToken) {
 			var req = request.UserRequestDTO;
+			var jwt = request.ParsedJwtToken;
 
 			var existingUser = _userReadRepository.GetAll()
 												  .Where(u => u.Email == req.Email
@@ -38,7 +40,23 @@ namespace Logic.Mediated.Commands.Users {
 				return new Response<UserResponseDTO>().AddError("Email, login name or display name are already taken");
 			}
 
-			var user = new User(req.DisplayName, req.LoginName, req.Email, req.Password.GetSHA256String(), DateTime.Now, new() { ClearanceLevel.User });
+			// Indien het een create betreft door management wordt tevens gebruik gemaakt van de meegegeven
+			// clearance levels
+			List<ClearanceLevel> clearanceLevels = new();
+
+			if (jwt.ClearanceLevels.Contains(ClearanceLevel.Management)) {
+				try {
+					clearanceLevels = req.ClearanceLevels.ConvertAll(cl => Enum.Parse<ClearanceLevel>(cl));
+				} catch {
+					return new Response<UserResponseDTO>().AddError("One or more invalid ClearanceLevels were given, provide the string or numerical representation of the CL");
+				}
+			}
+
+			if (!clearanceLevels.Contains(ClearanceLevel.User)) {
+				clearanceLevels.Add(ClearanceLevel.User);
+			}
+
+			var user = new User(req.DisplayName, req.LoginName, req.Email, req.Password.GetSHA256String(), DateTime.Now, clearanceLevels);
 
 			_userWriteRepository.Insert(user);
 			_userWriteRepository.Save();

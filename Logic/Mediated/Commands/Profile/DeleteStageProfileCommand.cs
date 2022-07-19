@@ -3,12 +3,6 @@ using Domain.Model;
 using Domain.Model.Messaging;
 using MediatR;
 using Micro2Go.Model;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Logic.Mediated.Commands.Profile {
 	public class DeleteStageProfileCommand : IRequest<Response<bool>> {
@@ -36,6 +30,7 @@ namespace Logic.Mediated.Commands.Profile {
 				return new Response<bool>(false).AddError("StageProfile does not exist");
 			}
 
+			// Niet opgenomen in validator aangezien er geen sprake is van een dto
 			if (!jwt.ClearanceLevels.Contains(ClearanceLevel.Management)) {
 				if(existingProfile.OwnerId != jwt.UserId) {
 					return new Response<bool>(false).AddError("Unpriviliged: you can not update someone else's StageProfile");

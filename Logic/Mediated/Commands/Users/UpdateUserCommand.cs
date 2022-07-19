@@ -14,7 +14,7 @@ namespace Logic.Mediated.Commands.Users {
 		public ParsedJwtToken ParsedJwtToken { get; set; }
 	}
 
-	// todo validators, tests
+	// todo tests
 	public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Response<UserResponseDTO>> {
 		private readonly IGenericReadRepository<User> _userReadRepository;
 		private readonly IGenericWriteRepository<User> _userWriteRepository;
@@ -26,7 +26,7 @@ namespace Logic.Mediated.Commands.Users {
 			_mapper = mapper;
 		}
 
-		// todo validator, unit tests
+		// todo unit tests
 		public async Task<Response<UserResponseDTO>> Handle(UpdateUserCommand request, CancellationToken cancellationToken) {
 			var req = request.UserRequestDTO;
 			var jwt = request.ParsedJwtToken;
@@ -37,10 +37,13 @@ namespace Logic.Mediated.Commands.Users {
 				return new Response<UserResponseDTO>().AddError("User could not be found");
 			}
 
+			// Ook opgenomen in de validator
 			if (!jwt.ClearanceLevels.Contains(ClearanceLevel.Management)) {
 				if (existingUser.Id != jwt.UserId) {
 					return new Response<UserResponseDTO>().AddError("Unpriviliged: you can not edit someone else's account");
 				}
+
+
 			}
 
 			existingUser.DisplayName = req.DisplayName;
@@ -53,11 +56,13 @@ namespace Logic.Mediated.Commands.Users {
 				List<ClearanceLevel> clevels = new();
 
 				try {
-					req.ClearanceLevels.ForEach(cl => {
-						clevels.Add(Enum.Parse<ClearanceLevel>(cl.ToString()));
-					});
+					clevels = req.ClearanceLevels.ConvertAll(cl => Enum.Parse<ClearanceLevel>(cl));
 				} catch {
 					return new Response<UserResponseDTO>().AddError("One or more invalid ClearanceLevels were given, provide the string or numerical representation of the CL");
+				}
+
+				if (!clevels.Contains(ClearanceLevel.User)) {
+					clevels.Add(ClearanceLevel.User);
 				}
 
 				existingUser.ClearanceLevels = clevels;

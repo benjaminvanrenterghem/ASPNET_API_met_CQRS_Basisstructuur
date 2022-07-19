@@ -1,12 +1,12 @@
 ﻿using FluentValidation;
 using Logic.Mediated.Queries.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
+// todo test
 namespace Logic.Behaviors.Validators.ForUsers.Queries {
 	public class GetAllUsersQueryValidator : AbstractValidator<GetAllUsersQuery> {
+		public GetAllUsersQueryValidator() {
+			RuleFor(req => req.Page).InclusiveBetween(1, int.MaxValue);
+			RuleFor(req => req.PageSize).InclusiveBetween(1, int.MaxValue);
+		}
 	}
 }

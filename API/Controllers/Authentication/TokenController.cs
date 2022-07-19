@@ -18,7 +18,6 @@ namespace API.Controllers.Authentication {
             _configuration = configuration;
         }
 
-        // todo logica in handler, dient sha256 waarde van passw te comparen + validator
         // todo unit tests
         [HttpPost]
 		[Authorize(ApiConfig.AuthorizedFor_Public)]

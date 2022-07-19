@@ -1,13 +1,21 @@
 ﻿using FluentValidation;
 using Logic.Mediated.Commands.Authentication;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-// todo crit add rules in all validators (all files made)
+// todo test
 namespace Logic.Behaviors.Validators.ForAuthentication {
 	public class CreateJWTTokenCommandValidator : AbstractValidator<CreateJWTTokenCommand> {
+		public CreateJWTTokenCommandValidator() {
+			RuleFor(cmd => cmd.Subject).NotNull().NotEmpty();
+			RuleFor(cmd => cmd.Key).NotNull().NotEmpty();
+			RuleFor(cmd => cmd.Issuer).NotNull().NotEmpty();
+			RuleFor(cmd => cmd.Audience).NotNull().NotEmpty();
+			RuleFor(cmd => cmd.TokenValidForSeconds).GreaterThan(300);
+
+			RuleFor(cmd => cmd.ProvidedCredentials).NotNull();
+			When(cmd => cmd.ProvidedCredentials != null, () => {
+				RuleFor(cmd => cmd.ProvidedCredentials.Email).NotNull().NotEmpty();
+				RuleFor(cmd => cmd.ProvidedCredentials.Password).NotNull().NotEmpty();
+			});
+		}
 	}
 }

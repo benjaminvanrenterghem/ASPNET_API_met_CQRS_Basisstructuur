@@ -4,6 +4,7 @@ using Domain.Static;
 using Logic.Mediated.Commands.Users;
 using Logic.Mediated.Queries.Users;
 using MediatR;
+using Micro2Go.Model;
 using Micro2Go.Parsers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -61,6 +62,7 @@ namespace API.Controllers {
                 return Ok(
 				    await _mediator.Send(
 				        new CreateUserCommand() { 
+                            ParsedJwtToken = JwtTokenParser.ParseRequest(Request),
                             UserRequestDTO = userRequestDTO
                         }
 				    )
