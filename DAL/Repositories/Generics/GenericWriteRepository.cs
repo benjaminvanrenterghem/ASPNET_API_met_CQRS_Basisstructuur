@@ -27,9 +27,14 @@ namespace DAL.Repositories.Generics {
 			_entities.Add(entity);
 		}
 
-		public void Update(T entity) {
-			// Bij problemen overwegen dit te implementeren https://stackoverflow.com/a/36684660/8623540
+		public void Update(T entity, T? updatedEntity=default) {
 			_entities.Attach(entity);
+
+			// Indien men (evt middels mapping) beschikt over een entity met nieuwe waarden kan deze optioneel meegegeven worden, de getrackede entity's values worden aangepast
+			if(updatedEntity is not null) {
+				_context.Entry(entity).CurrentValues.SetValues(updatedEntity);
+			}
+
 			_context.Entry(entity).State = EntityState.Modified;
 		}
 

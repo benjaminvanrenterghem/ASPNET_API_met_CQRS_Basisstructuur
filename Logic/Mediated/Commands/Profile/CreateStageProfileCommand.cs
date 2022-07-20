@@ -34,7 +34,7 @@ namespace Logic.Mediated.Commands.Profile {
 				}
 			}
 
-			StageProfile profile = new StageProfile(req.FullName, jwt.UserId, req.About, req.WebsiteURL);
+			StageProfile profile = _mapper.Map<StageProfile>(req);
 
 			_profileWriteRepository.Insert(profile);
 			_profileWriteRepository.Save();

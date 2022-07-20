@@ -11,19 +11,16 @@ using System.Threading.Tasks;
 namespace Domain.Model {
 	[Table("StageProfile")]
 	public class StageProfile : Entity {
-		// ConcurrencyToken
-		// https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/concurrency?view=aspnetcore-6.0#add-a-tracking-property
-		[Timestamp]
-		public byte[] RowVersion { get; set; }
-
 		[Required]
 		[MaxLength(250)]
 		public string FullName { get; set; }
 
 		[Required]
-		public User Owner { get; set; }
+		public virtual User Owner { get; set; }
 
-		// Hoort automatisch bij Owner door EF, laat toe om de relatie in te stellen zonder Owner/User te providen
+		// Volgt de EF naming convention en wordt door EF aanschouwt als zijnde gekoppeld aan de property Owner
+		// Convention [Entity_PropertyName]+"Id" = OwnerId
+		// Laat toe om louter een id mee te geven om een correcte relatie te bekomen (zie UpdateCommandHandlers)
 		public int OwnerId { get; set; }
 
 		[Required]

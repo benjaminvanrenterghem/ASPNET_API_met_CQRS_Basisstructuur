@@ -40,30 +40,21 @@ namespace Logic.Mediated.Commands.Users {
 				return new Response<UserResponseDTO>().AddError("Email, login name or display name are already taken");
 			}
 
-			// Indien het een create betreft door management wordt tevens gebruik gemaakt van de meegegeven
-			// clearance levels
-			List<ClearanceLevel> clearanceLevels = new();
-
-			if (jwt.ClearanceLevels.Contains(ClearanceLevel.Management)) {
-				try {
-					clearanceLevels = req.ClearanceLevels.ConvertAll(cl => Enum.Parse<ClearanceLevel>(cl));
-				} catch {
-					return new Response<UserResponseDTO>().AddError("One or more invalid ClearanceLevels were given, provide the string or numerical representation of the CL");
-				}
+			// Indien het geen create betreft door management krijgt men louter User clearance
+			if (!jwt.ClearanceLevels.Contains(ClearanceLevel.Management)) {
+				req.ClearanceLevels = new() {
+					ClearanceLevel.User.ToString()
+				};
 			}
 
-			if (!clearanceLevels.Contains(ClearanceLevel.User)) {
-				clearanceLevels.Add(ClearanceLevel.User);
-			}
+			User newUser = _mapper.Map<User>(req);
 
-			var user = new User(req.DisplayName, req.LoginName, req.Email, req.Password.GetSHA256String(), DateTime.Now, clearanceLevels);
-
-			_userWriteRepository.Insert(user);
+			_userWriteRepository.Insert(newUser);
 			_userWriteRepository.Save();
 
 			return new Response<UserResponseDTO>(
 				_mapper.Map<UserResponseDTO>(
-					user
+					newUser
 				)
 			);
 		}

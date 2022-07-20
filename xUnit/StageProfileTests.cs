@@ -1,10 +1,12 @@
-using Xunit;
+﻿using Xunit;
 
 namespace Testing {
-	public class UnitTest1 {
+	public class StageProfileTests {
+
 		[Fact]
 		public void Test1() {
 
 		}
+
 	}
 }

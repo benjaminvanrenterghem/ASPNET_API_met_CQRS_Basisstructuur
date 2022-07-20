@@ -1,8 +1,7 @@
 ﻿using Domain.Attributes;
 
 namespace Domain.Model.DTO.Response {
-	public class StageProfileResponseDTO {
-		public int? Id { get; set; }
+	public class StageProfileResponseDTO : ResponseDTO {
 
 		[LocalizedDisplayName("Naam")]
 		public string FullName { get; set; }
@@ -14,6 +13,5 @@ namespace Domain.Model.DTO.Response {
 
 		[LocalizedDisplayName("Website")]
 		public string WebsiteURL { get; set; }
-		public bool Deleted { get; set; }
 	}
 }

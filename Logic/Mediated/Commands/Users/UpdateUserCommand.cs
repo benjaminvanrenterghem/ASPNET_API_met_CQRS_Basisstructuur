@@ -42,40 +42,17 @@ namespace Logic.Mediated.Commands.Users {
 				if (existingUser.Id != jwt.UserId) {
 					return new Response<UserResponseDTO>().AddError("Unpriviliged: you can not edit someone else's account");
 				}
-
-
 			}
 
-			existingUser.DisplayName = req.DisplayName;
-			existingUser.LoginName = req.LoginName;
-			existingUser.Email = req.Email;
-			existingUser.Password = req.Password.GetSHA256String();
-
-			// Louter management mag een User's ClearanceLevels wijzigen
-			if (jwt.ClearanceLevels.Contains(ClearanceLevel.Management)) {
-				List<ClearanceLevel> clevels = new();
-
-				try {
-					clevels = req.ClearanceLevels.ConvertAll(cl => Enum.Parse<ClearanceLevel>(cl));
-				} catch {
-					return new Response<UserResponseDTO>().AddError("One or more invalid ClearanceLevels were given, provide the string or numerical representation of the CL");
-				}
-
-				if (!clevels.Contains(ClearanceLevel.User)) {
-					clevels.Add(ClearanceLevel.User);
-				}
-
-				existingUser.ClearanceLevels = clevels;
-			}
+			User updatedUser = _mapper.Map<User>(req);
 
 			// User's StageProfiles blijven ongewijzigd, gebruiker dient UpdateStageProfileCommand te benuttigen om deze relatie te wijzigen
-
-			_userWriteRepository.Update(existingUser);
+			updatedUser.Profiles = existingUser.Profiles;
+			
+			_userWriteRepository.Update(existingUser, updatedUser);
 			_userWriteRepository.Save();
 
-			// We wensen om veiligheidsredenen een response te returnen welke het geencrypteerde wachtwoord niet bevat
-			existingUser.Password = "";
-
+			// In ResponseDTOMappingProfile wordt door de mapper het geencrypteerde wachtwoord veld omgevormd naar een lege string, aangezien we dit om veiligheidsredenen niet wensen te retourneren.
 			return new Response<UserResponseDTO>(
 				_mapper.Map<UserResponseDTO>(
 					existingUser

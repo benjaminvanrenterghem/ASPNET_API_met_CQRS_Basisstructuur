@@ -1,6 +1,8 @@
-﻿using Domain.Exceptions;
+﻿using AutoMapper;
+using Domain.Exceptions;
 using Domain.Interfaces.Repositories.Generics;
 using Domain.Model;
+using Domain.Model.DTO.Converted;
 using Domain.Model.DTO.Request;
 using Domain.Model.Messaging;
 using MediatR;
@@ -22,23 +24,26 @@ namespace Logic.Mediated.Commands.Authentication {
 	}
 
 	public class CreateJWTTokenCommandHandler : IRequestHandler<CreateJWTTokenCommand, Response<string?>> {
-		public readonly IGenericReadRepository<User> _userReadRepository;
+		private readonly IGenericReadRepository<User> _userReadRepository;
+		private readonly IMapper _mapper;
 
-		public CreateJWTTokenCommandHandler(IGenericReadRepository<User> userReadRepository) {
+		public CreateJWTTokenCommandHandler(IGenericReadRepository<User> userReadRepository, IMapper mapper) {
 			_userReadRepository = userReadRepository;
+			_mapper = mapper;
 		}
 
 		// todo validator, tests
 		public async Task<Response<string?>> Handle(CreateJWTTokenCommand request, CancellationToken cancellationToken) {
+			var login = _mapper.Map<ConvertedLoginRequestDTO>(request.ProvidedCredentials);
+
 			var user = _userReadRepository.GetAllWithLazyLoading()
-										  .Where(user => user.Email == request.ProvidedCredentials.Email)
-										  .Where(user => user.Password == 
-														 request.ProvidedCredentials.Password.GetSHA256String())
+										  .Where(user => user.Email == login.Email)
+										  .Where(user => user.Password == login.SHA256Password)
 										  .ToList()
 										  .FirstOrDefault();
 
 			if(user == null) {
-				throw new HandlerException("Invalid credentials");
+				return new Response<string?>().AddError("Invalid credentials");
 			}
 
 			var claims = new[] {

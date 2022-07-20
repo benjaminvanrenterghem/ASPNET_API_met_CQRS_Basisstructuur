@@ -50,17 +50,10 @@ namespace Logic.Mediated.Commands.Profile {
 				}
 			}
 
-			existingProfile.FullName = req.FullName;
-
-			// Indien de uitvoerder beschikt over management clearance wordt de waarde uit de dto gebruikt, anders steeds de waarde uit de jwt 
-			existingProfile.OwnerId = jwt.ClearanceLevels.Contains(ClearanceLevel.Management)
-									  ? req.OwnerUserId
-									  : jwt.UserId;
-
-			existingProfile.About = req.About;
-			existingProfile.WebsiteURL = req.WebsiteURL;
-
-			_profileWriteRepository.Update(existingProfile);
+			// UpdatedProfile zal niet beschikken over een Owner instantie, echter door opname van 
+			// int OwnerId in StageProfile zal deze correct ingesteld worden (zie StageProfile)
+			StageProfile updatedProfile = _mapper.Map<StageProfile>(req);
+			_profileWriteRepository.Update(existingProfile, updatedProfile);
 			_profileWriteRepository.Save();
 
 			return new Response<StageProfileResponseDTO>(
