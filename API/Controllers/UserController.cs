@@ -94,7 +94,7 @@ namespace API.Controllers {
             }
         }
 
-		[HttpDelete("admin/user/{id:int}")]
+		[HttpDelete("admin/user/{id:int}/delete")]
         [Authorize(ApiConfig.AuthorizedFor_Management)]
         public async Task<ActionResult> DeleteUser(int id) {
             try {

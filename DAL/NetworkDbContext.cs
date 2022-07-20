@@ -1,6 +1,8 @@
 ﻿using Domain.Interfaces;
 using Domain.Model;
+using Micro2Go.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +23,20 @@ namespace DAL {
 
 			modelBuilder.Entity<User>()
 						.HasQueryFilter(x => !x.Deleted);
+
+			// EF kan geen List<ClearanceLevel> out-of-the-box opslaan, er wordt geconverteerd van en naar
+			// de string representatie (List<CL>  <-->  string)
+			// Property names kunnen geen komma bevatten, wat dit een veilige operatie maakt
+			modelBuilder.Entity<User>()
+						.Property<List<ClearanceLevel>>(x => x.ClearanceLevels)
+						.HasConversion<string>(
+							cls => String.Join(",", cls.ConvertAll(cl => cl.ToString())),
+							clsstr => clsstr.Split(",", StringSplitOptions.RemoveEmptyEntries)
+											.ToList()
+											.ConvertAll(clsstr => Enum.Parse<ClearanceLevel>(clsstr)) 
+						)
+						// Elke CL max maximum 128 karakters lang zijn, we voorzien plaats voor minimum 250 CLs
+						.HasMaxLength(128*250);
 
 			// Onderstaande hoort bij de ConcurrencyToken aanpak in Entity, maar dan voor insert statements
 			// Voorkomt insertion van identieke entries door de zeldzame Mediatr.Send racecondition

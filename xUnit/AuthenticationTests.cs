@@ -47,6 +47,9 @@ namespace Testing {
 				config.AddProfile(new RequestDTOMappingProfile());
 			});
 
+			// Net zoals in de extension method, de mapping profiles controleren op fouten bij uitvoer
+			mockMapper.AssertConfigurationIsValid();
+
 			// Relevante mocks aanmaken
 			_mapper = mockMapper.CreateMapper();
 			_mediator = new Mock<IMediator>();

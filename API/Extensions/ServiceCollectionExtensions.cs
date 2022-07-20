@@ -48,7 +48,9 @@ namespace API.Extensions {
 				options.AddPolicy(ApiConfig.AuthorizedFor_Shared, policy => {
 					policy.RequireClaim(nameof(ClearanceLevel), new string[] { clearanceLevelManagement, clearanceLevelUser });
 				});
-				options.AddPolicy(ApiConfig.AuthorizedFor_Public, policy => { });
+				options.AddPolicy(ApiConfig.AuthorizedFor_Public, policy => {
+					policy.RequireAssertion(x => true);
+				});
 			});
 
 		}

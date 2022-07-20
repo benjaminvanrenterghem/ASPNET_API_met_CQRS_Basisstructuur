@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 namespace Logic.Extensions {
 	public static class ServiceCollectionExtensions {
 		public static void AddValidatedAutoMapper(this IServiceCollection services) {
+			// De mapping profiles worden gevalideerd op fouten en toegevoegd middels DI
 			new MapperConfiguration(cfg => {
 				cfg.AddProfile<ResponseDTOMappingProfile>();
 				cfg.AddProfile<RequestDTOMappingProfile>();
