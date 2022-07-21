@@ -46,7 +46,7 @@ namespace Micro2Go.Parsers {
 		}
 
 		// Ten behoeve van unit tests & validatie qua inhoud
-		public static VerboseParsedJwtToken? ParseAndProvideVerboseJwtToken(string jwtToken) { 
+		public static VerboseParsedJwtToken? ParseToVerboseJwtToken(string jwtToken) { 
 			List<Claim> claims = JwtTokenParser.ProvideClaims(jwtToken);
 			ParsedJwtToken standardJwt = JwtTokenParser.ParseBareToken(jwtToken);
 

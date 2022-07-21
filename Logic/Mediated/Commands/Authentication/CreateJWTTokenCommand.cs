@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
-using Domain.Exceptions;
 using Domain.Interfaces.Repositories.Generics;
 using Domain.Model;
 using Domain.Model.DTO.Converted;
 using Domain.Model.DTO.Request;
 using Domain.Model.Messaging;
 using MediatR;
-using Micro2Go.Extensions;
 using Micro2Go.Model;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -32,7 +30,6 @@ namespace Logic.Mediated.Commands.Authentication {
 			_mapper = mapper;
 		}
 
-		// todo validator, tests
 		public async Task<Response<string?>> Handle(CreateJWTTokenCommand request, CancellationToken cancellationToken) {
 			var login = _mapper.Map<ConvertedLoginRequestDTO>(request.ProvidedCredentials);
 
