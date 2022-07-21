@@ -56,7 +56,6 @@ namespace API.Extensions {
 		}
 
 		public static void ConfigureServicelayer(this IServiceCollection services, IConfiguration configuration) {
-
 			services.AddControllers().AddJsonOptions(options => {
 				options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 			});
@@ -82,7 +81,7 @@ namespace API.Extensions {
 			// Mediation
 			services.AddMediation();
 
-			// DbContext 
+			// DbContext & ADO net repo
 			services.AddDataLayer(
 				configuration[ApiConfig.ConnectionStrings_Main]
 			);

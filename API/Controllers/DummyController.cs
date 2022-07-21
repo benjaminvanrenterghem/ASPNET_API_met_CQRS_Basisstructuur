@@ -1,6 +1,7 @@
 ﻿
 
 using Domain.Interfaces;
+using Domain.Interfaces.Repositories.Specifics;
 using Domain.Model.Messaging;
 using Domain.Static;
 using MediatR;
@@ -15,7 +16,12 @@ namespace API.Controllers {
 	public class DummyController : ControllerBase {
 		private readonly INetworkDbContext _dbContext;
 
-		public DummyController(INetworkDbContext dbContext) {
+		//public DummyController(INetworkDbContext dbContext) {
+		//	_dbContext = dbContext;
+		//}
+
+		public DummyController(INetworkDbContext dbContext, IAdoExemplarStageProfileWriteRepository test) {
+			var testt = test;
 			_dbContext = dbContext;
 		}
 

@@ -1,6 +1,8 @@
 ﻿using DAL.Repositories.Generics;
+using DAL.Repositories.Specifics;
 using Domain.Interfaces;
 using Domain.Interfaces.Repositories.Generics;
+using Domain.Interfaces.Repositories.Specifics;
 using Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,6 +48,8 @@ namespace DAL.Extensions {
 			services.AddScoped<IGenericWriteRepository<User>, GenericWriteRepository<User>>();
 
 			// Specifics
+			// ADO.NET exemplar 
+			services.AddScoped<IAdoExemplarStageProfileWriteRepository, AdoExemplarStageProfileWriteRepository>();
 		}
 
 	}
