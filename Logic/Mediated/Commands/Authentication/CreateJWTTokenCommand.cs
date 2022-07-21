@@ -54,14 +54,14 @@ namespace Logic.Mediated.Commands.Authentication {
 				new Claim(JwtRegisteredClaimNames.Sub, request.Subject),
 				new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 				new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-				new Claim(JwtRegisteredClaimNames.Exp, DateTime.UtcNow.AddSeconds(request.TokenValidForSeconds).ToString())
-			};
+				new Claim(JwtRegisteredClaimNames.Exp, DateTime.UtcNow.AddSeconds(request.TokenValidForSeconds)
+																	  .ToFileTimeUtc()
+																	  .ToString()),
 
-			user.ClearanceLevels.ForEach((clearanceLevel) => {
-				claims.Append(
-					new Claim(nameof(ClearanceLevel), clearanceLevel.ToString())
-				);
-			});
+				new Claim(nameof(ClearanceLevel), 
+						  String.Join(",", user.ClearanceLevels.ConvertAll(cl => cl.ToString()))
+				)
+			};
 
 			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(request.Key));
 			var token = new JwtSecurityToken(

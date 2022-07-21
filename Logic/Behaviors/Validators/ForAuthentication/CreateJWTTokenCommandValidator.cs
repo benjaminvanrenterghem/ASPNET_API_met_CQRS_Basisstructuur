@@ -13,9 +13,11 @@ namespace Logic.Behaviors.Validators.ForAuthentication {
 
 			RuleFor(cmd => cmd.ProvidedCredentials).NotNull();
 			When(cmd => cmd.ProvidedCredentials != null, () => {
-				RuleFor(cmd => cmd.ProvidedCredentials.Email).NotNull().NotEmpty();
-				RuleFor(cmd => cmd.ProvidedCredentials.Password).NotNull().NotEmpty();
+				RuleFor(cmd => cmd.ProvidedCredentials.Email).NotNull().NotEmpty().Length(1, 400);
+				RuleFor(cmd => cmd.ProvidedCredentials.Password).NotNull().NotEmpty().Length(10, 300);
 			});
 		}
+
+
 	}
 }
