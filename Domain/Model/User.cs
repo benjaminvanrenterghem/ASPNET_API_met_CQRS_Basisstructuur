@@ -31,13 +31,14 @@ namespace Domain.Model {
 
         public User () { /*EF*/ }
 
-        public User(string displayName, string loginName, string email, string password, List<ClearanceLevel> clearanceLevels)
+        public User(string displayName, string loginName, string email, string password, List<ClearanceLevel> clearanceLevels, int? userId=null)
         {
             DisplayName = displayName;
             LoginName = loginName;
             Email = email;
             Password = password;
             ClearanceLevels = clearanceLevels ?? new();
+            Id = userId;
         }
     }
 }

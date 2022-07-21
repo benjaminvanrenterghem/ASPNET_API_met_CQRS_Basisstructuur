@@ -11,8 +11,13 @@ using System.Threading.Tasks;
 
 namespace DAL {
 	public class NetworkDbContext : DbContext, INetworkDbContext {
-		public DbSet<StageProfile> Profiles { get; set; }
-		public DbSet<User> Users { get; set; }
+		// Virtual DbSets om override met FakeDbSet mogelijk te maken in de unit tests
+		public virtual DbSet<StageProfile> Profiles { get; set; }
+		public virtual DbSet<User> Users { get; set; }
+
+		public NetworkDbContext() {
+			/* xUnit */
+		}
 
 		public NetworkDbContext(DbContextOptions options) : base(options) { }
 
