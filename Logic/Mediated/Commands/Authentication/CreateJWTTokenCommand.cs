@@ -54,17 +54,19 @@ namespace Logic.Mediated.Commands.Authentication {
 				new Claim(JwtRegisteredClaimNames.Exp, DateTime.UtcNow.AddSeconds(request.TokenValidForSeconds)
 																	  .ToFileTimeUtc()
 																	  .ToString()),
+			}.ToList();
 
-				new Claim(nameof(ClearanceLevel), 
-						  String.Join(",", user.ClearanceLevels.ConvertAll(cl => cl.ToString()))
-				)
-			};
+			foreach(var cl in user.ClearanceLevels.ConvertAll(cl => cl.ToString())) {
+				claims.Add(
+					new Claim(nameof(ClearanceLevel), cl.ToString())
+				);
+			}
 
 			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(request.Key));
 			var token = new JwtSecurityToken(
 				request.Issuer,
 				request.Audience,
-				claims,
+				claims.ToArray(),
 				expires: DateTime.UtcNow.AddSeconds(request.TokenValidForSeconds),
 				signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
 			);

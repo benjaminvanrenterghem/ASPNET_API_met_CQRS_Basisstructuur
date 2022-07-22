@@ -29,11 +29,17 @@ namespace Micro2Go.Parsers {
 				Email = claims?.FirstOrDefault(claim => claim.Type.ToLower() == "email")?.Value ?? "",
 				DisplayName = claims?.FirstOrDefault(claim => claim.Type.ToLower() == "displayname")?.Value ?? "",
 				LoginName = claims?.FirstOrDefault(claim => claim.Type.ToLower() == "loginname")?.Value ?? "",
-				ClearanceLevels = claims?.FirstOrDefault(claim => claim.Type == nameof(ClearanceLevel))
-										?.Value.Split(",")
-										?.ToList()
-										?.ConvertAll(clstr => Enum.Parse<ClearanceLevel>(clstr))
-										?? new()
+				ClearanceLevels = claims?.Where(claim => claim.Type == nameof(ClearanceLevel))
+										 .ToList()
+										 .ConvertAll(clclaim => Enum.Parse<ClearanceLevel>(clclaim.Value.ToString()))
+										 ?? new()
+
+										 // todo rem:
+				//ClearanceLevels = claims?.FirstOrDefault(claim => claim.Type == nameof(ClearanceLevel)+"-main")
+				//						?.Value.Split(",")
+				//						?.ToList()
+				//						?.ConvertAll(clstr => Enum.Parse<ClearanceLevel>(clstr))
+				//						?? new()
 			};
 		}
 
