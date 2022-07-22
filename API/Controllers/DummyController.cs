@@ -16,12 +16,7 @@ namespace API.Controllers {
 	public class DummyController : ControllerBase {
 		private readonly INetworkDbContext _dbContext;
 
-		//public DummyController(INetworkDbContext dbContext) {
-		//	_dbContext = dbContext;
-		//}
-
-		public DummyController(INetworkDbContext dbContext, IAdoExemplarStageProfileWriteRepository test) {
-			var testt = test;
+		public DummyController(INetworkDbContext dbContext) {
 			_dbContext = dbContext;
 		}
 

@@ -14,10 +14,10 @@ namespace Domain.Abstract {
 		public int? Id { get; set; }
 
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public DateTime? CreatedDate { get; set; }
+		public DateTime CreatedDate { get; set; }
 
 		[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-		public DateTime? UpdatedDate { get; set; }
+		public DateTime UpdatedDate { get; set; }
 
 		[Required]
 		public bool Deleted { get; set; } = false;
