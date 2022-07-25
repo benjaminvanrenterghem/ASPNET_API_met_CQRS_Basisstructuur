@@ -46,7 +46,7 @@ namespace Logic.Mediated.Commands.Profile {
 			}
 
 			if (profile is null || profile.Id < 1) {
-				return new Response<StageProfileResponseDTO>().AddError("Insert result is null");
+				return new Response<StageProfileResponseDTO>().AddError("Failed to insert StageProfile");
 			}
 
 			return new Response<StageProfileResponseDTO>(

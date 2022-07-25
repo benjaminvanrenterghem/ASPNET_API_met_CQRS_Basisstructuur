@@ -1,9 +1,9 @@
-﻿using Castle.Core.Configuration;
-using Domain.Exceptions;
+﻿using Domain.Exceptions;
 using Domain.Interfaces.Repositories.Specifics;
 using Domain.Model;
 using Domain.Static;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using System.Data;
 
 namespace DAL.Repositories.Specifics;
@@ -13,10 +13,7 @@ public class AdoExemplarStageProfileWriteRepository : IAdoExemplarStageProfileWr
 
     // todo check value
 	public AdoExemplarStageProfileWriteRepository(IConfiguration config) {
-        _connstring = config.Children.Where(config => config.Name == ApiConfig.ConnectionStrings_Main)
-                                     .FirstOrDefault()
-                                    ?.Value
-                                     ?? throw new RepositoryException("Connection string not found");
+        _connstring = config[ApiConfig.ConnectionStrings_Main];
 	}
 
     // todo manual + unit tests
@@ -49,7 +46,7 @@ public class AdoExemplarStageProfileWriteRepository : IAdoExemplarStageProfileWr
                 throw new RepositoryException("Insert error", exc);
             }
         }
-        
+
         stageProfile.Id = StageProfileId;
 
         return stageProfile.Id < 1 ? null : stageProfile;
